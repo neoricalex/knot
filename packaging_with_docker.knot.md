@@ -59,6 +59,8 @@ RUN echo "#!/bin/bash\n\
 " > /usr/local/bin/knot-watch && \
 chmod +x /usr/local/bin/knot-watch
 
+WORKDIR /workdir
+
 ENTRYPOINT ["knot-watch"]
 ```
 
@@ -68,7 +70,17 @@ I put in `<<Watch and recompile knot files.>>` will have the `\n\` suffix for
 each line. So here's the script. It's inside the echo string, so there's some
 weird escaping.
 
-(I don't like that so much because you have to remember the context...)
+(I don't like it that you have to remember the context for these code sections.
+It'd be cool to be able to define a function to be able to escape it!)
+
+The `WORKDIR` establishes a convention for the image that the volume should be
+mapped to `/workdir`. With `docker run`: the `--volume $(pwd):/workdir`. In an
+Docker Compose file, I only need:
+
+    mycontainer:
+      image: mqsoh/knot
+      volumes:
+        - .:/workdir
 
 ###### Watch and recompile Knot files.
 

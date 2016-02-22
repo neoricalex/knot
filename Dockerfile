@@ -22,4 +22,6 @@ done\n\
 " > /usr/local/bin/knot-watch && \
 chmod +x /usr/local/bin/knot-watch
 
+WORKDIR /workdir
+
 ENTRYPOINT ["knot-watch"]
