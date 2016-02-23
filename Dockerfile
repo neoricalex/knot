@@ -12,7 +12,7 @@ RUN echo "#!/bin/bash\n\
 echo "Watching: \$@"\n\
 inotifywait --monitor --event close_write --event delete_self --format '%w%f' \"\$@\" | while read file; do\n\
     case \$file in\n\
-        *.knot.md)\n\
+        *.md)\n\
             if [ -a "\$file" ]; then\n\
                 knot \$file\n\
             fi\n\

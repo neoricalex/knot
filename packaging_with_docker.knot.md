@@ -88,7 +88,7 @@ Docker Compose file, I only need:
 echo "Watching: \$@"
 inotifywait --monitor --event close_write --event delete_self --format '%w%f' \"\$@\" | while read file; do
     case \$file in
-        *.knot.md)
+        *.md)
             if [ -a "\$file" ]; then
                 knot \$file
             fi
