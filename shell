@@ -1,0 +1,3 @@
+#!/bin/bash
+# Don't change this file. It was generated from knot.md.
+docker run --interactive --tty --rm --volume $(pwd):/workdir mqsoh/lfe-watcher

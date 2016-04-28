@@ -1,0 +1,6 @@
+# Don't change this file. It was generated from knot.md.
+knot:
+  image: mqsoh/knot
+  volumes:
+    - .:/workdir
+  command: .

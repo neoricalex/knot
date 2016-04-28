@@ -1,27 +1,18 @@
-# This file was generated from packaging_with_docker.knot.md in the GitHub
-# repository.
-FROM erlang:18
-
-ADD ./knot /usr/local/bin/
-RUN chmod +x /usr/local/bin/knot
+FROM erlang:18.3.4
 RUN apt-get update && \
-    apt-get install -y inotify-tools && \
+    apt-get install --assume-yes inotify-tools && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-RUN echo "#!/bin/bash\n\
-echo "Watching: \$@"\n\
-inotifywait --monitor --event close_write --event delete_self --format '%w%f' \"\$@\" | while read file; do\n\
-    case \$file in\n\
-        *.md)\n\
-            if [ -a "\$file" ]; then\n\
-                knot \$file\n\
-            fi\n\
-            ;;\n\
-    esac\n\
-done\n\
-" > /usr/local/bin/knot-watch && \
-chmod +x /usr/local/bin/knot-watch
+RUN cd /usr/local/lib/erlang/lib && \
+    git clone https://github.com/rvirding/lfe.git && \
+    cd /usr/local/lib/erlang/lib/lfe && \
+    git checkout v1.0 && \
+    make compile install
 
-WORKDIR /workdir
-
-ENTRYPOINT ["knot-watch"]
+COPY src /usr/local/lib/erlang/lib/knot/src
+COPY ebin/knot.app /usr/local/lib/erlang/lib/knot/ebin/knot.app
+RUN cd /usr/local/lib/erlang/lib/knot && \
+    lfec -o ebin src/*.lfe
+COPY ./docker_entrypoint.sh /usr/local/bin
+RUN chmod +x /usr/local/bin/docker_entrypoint.sh
+ENTRYPOINT ["docker_entrypoint.sh"]
