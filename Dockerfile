@@ -16,3 +16,4 @@ RUN cd /usr/local/lib/erlang/lib/knot && \
 COPY ./docker_entrypoint.sh /usr/local/bin
 RUN chmod +x /usr/local/bin/docker_entrypoint.sh
 ENTRYPOINT ["docker_entrypoint.sh"]
+WORKDIR /workdir

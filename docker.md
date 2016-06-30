@@ -123,6 +123,11 @@ The second is using `realpath` to normalize the file names. The user might give
 `knot.md` but the `%w%f` of inotifywait will give `./knot.md`. Realpath
 normalizes them both to `/workdir/knot.md`.
 
+Incidentally, in the Dockerfile I need to define `/workdir` as the workdir.
+
+###### file:Dockerfile
+    WORKDIR /workdir
+
 ### Usage
 
 These are the instructions for using the image. This is also included as help
